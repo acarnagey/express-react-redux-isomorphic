@@ -1,5 +1,6 @@
 import * as actions from "./actions";
 
+import { Link } from "react-router-dom";
 import React from "react";
 import { tabulate } from "../shared/pagination";
 
@@ -14,7 +15,11 @@ export function Table({ results }) {
       <tbody>
         {results.map((r) => (
           <tr key={r.id}>
-            <td>{r.email}</td>
+            <td>
+              <Link to={`/customers/${r.id}`} className="pure-link">
+                {r.email}
+              </Link>
+            </td>
           </tr>
         ))}
       </tbody>

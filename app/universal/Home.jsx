@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import CreateCustomer from "./customers/Create";
+import CustomerDetail from "./customers/Detail";
 import CustomerList from "./customers/List";
 import Invoicelist from "./invoices/List";
 import Nav from "./Nav";
@@ -19,8 +20,9 @@ export function Home({ authenticated }) {
           <Nav />
           <Switch>
             <Route exact path="/" component={RGB} />
-            <Route path="/customers/new" component={CreateCustomer} />
-            <Route path="/customers" component={CustomerList} />
+            <Route exact path="/customers/new" component={CreateCustomer} />
+            <Route exact path="/customers" component={CustomerList} />
+            <Route path="/customers/:id" component={CustomerDetail} />
             <Route path="/invoices" component={Invoicelist} />
 
             <Route

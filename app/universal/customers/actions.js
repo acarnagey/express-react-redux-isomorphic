@@ -18,6 +18,28 @@ export function create(data) {
       });
 }
 
+export const update = (data) => {
+  return () =>
+    api.customers
+      .update(data)
+      .then(() => {
+        return "SUCCESS";
+      })
+      .catch((err) => {
+        if (err.response.status === 422) {
+          throw new SubmissionError(err.response.data.errors);
+        }
+        throw err;
+      });
+};
+
+export const deleteById = (id) => {
+  return () =>
+    api.customers.deleteById(id).then(() => {
+      return "SUCCESS";
+    });
+};
+
 // export function resultsUpdated({ results, totalCount }) {
 //   return {
 //     type: actionTypes.RESULTS_UPDATED,

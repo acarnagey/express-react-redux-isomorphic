@@ -10,7 +10,7 @@ import { setPage } from "./actions";
 // import { updateColor } from "../actions";
 import { withRouter } from "react-router";
 
-export function List(props) {
+export const List = (props) => {
   useEffect(() => {
     // props.updateColor("r", 50);
     const page = qs.parse(props.location.search, { ignoreQueryPrefix: true })

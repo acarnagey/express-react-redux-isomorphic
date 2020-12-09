@@ -32,9 +32,14 @@ export default {
     // info: () => adapter.get("/session"),
   },
   customers: {
+    findById: (id) => adapter.get(`/customers/${id}`),
     list: (page, pageSize) =>
       adapter.get("/customers", { params: { page, pageSize } }),
     create: (customer) => adapter.post("/customers", { customer }),
+    update: (customer) => {
+      return adapter.put("/customers", { customer });
+    },
+    deleteById: (id) => adapter.delete(`/customers/${id}`),
   },
   invoices: {
     list: (page, pageSize) =>

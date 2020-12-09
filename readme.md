@@ -29,3 +29,9 @@ Postgres command line
 ```
 psql -U redux -d redux_end_to_end
 ```
+
+### TODO
+redux-saga
+redux-observable
+https://medium.com/@gethylgeorge/using-socket-io-in-react-redux-app-to-handle-real-time-data-c0e734297795
+https://github.com/Gethyl/RealTimeTodo
