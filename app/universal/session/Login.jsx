@@ -1,67 +1,61 @@
 import * as actions from "./actions";
 
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-export class Login extends Component {
-  state = {
+export const Login = (props) => {
+  const [form, setForm] = useState({
     username: "",
     password: "",
     invalid: false,
     success: false,
-  };
+  });
 
-  update = (field) => (e) => this.setState({ [field]: e.target.value });
+  const update = (field) => (e) =>
+    setForm({ username: form.username, password: form.password, [field]: e.target.value });
 
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const { username, password } = this.state;
-    this.props
-      .login(username, password)
-      .then(() => {
-        this.setState({ success: true });
-      })
-      .catch((err) => {
-        if (err.response.status === 422) {
-          this.setState({ invalid: true });
-        } else {
-          throw err;
-        }
-      });
+    const { username, password } = form;
+    props.login(username, password);
   };
 
-  render() {
-    if (this.state.success) {
-      return <Redirect to={{ pathname: "/" }} />;
+  useEffect(() => {
+    if (props.user && props.user.token) {
+      props.history.push("/");
     }
-    return (
-      <form className="pure-form pure-form-stacked" onSubmit={this.onSubmit}>
-        <fieldset>
-          <legend>Sign in</legend>
-          {this.state.invalid && (
-            <div style={{ height: "2rem", color: "red" }}>
-              Invalid Credentials
-            </div>
-          )}
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={this.update("username")}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={this.update("password")}
-          />
-          <button type="submit" className="pure-button pure-button-primary">
-            Sign in
-          </button>
-        </fieldset>
-      </form>
-    );
-  }
-}
+  }, [props.user, props.history]);
 
-export default connect(undefined, { login: actions.login })(Login);
+  return (
+    <form className="pure-form pure-form-stacked" onSubmit={onSubmit}>
+      <fieldset>
+        <legend>Sign in</legend>
+        {form.invalid && (
+          <div style={{ height: "2rem", color: "red" }}>
+            Invalid Credentials
+          </div>
+        )}
+        <input
+          type="text"
+          placeholder="Username"
+          onChange={update("username")}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={update("password")}
+        />
+        <button type="submit" className="pure-button pure-button-primary">
+          Sign in
+        </button>
+      </fieldset>
+    </form>
+  );
+  // }
+};
+
+export default withRouter(
+  connect((state) => state.session, { login: actions.login })(Login),
+);

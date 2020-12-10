@@ -1,8 +1,12 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
+import { applyMiddleware, compose, createStore } from "redux";
+
+// import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
 import reducer from "./reducer";
+import rootSaga from "./sagas";
 
 let store = null;
+const sagaMiddleware = createSagaMiddleware();
 
 export default function create(server = false) {
   if (!store) {
@@ -13,8 +17,10 @@ export default function create(server = false) {
     store = createStore(
       reducer,
       server ? undefined : window.__PRELOADED_STATE__,
-      composeEnhancers(applyMiddleware(thunk))
+      composeEnhancers(applyMiddleware(sagaMiddleware)),
     );
   }
+  sagaMiddleware.run(rootSaga);
+
   return store;
 }

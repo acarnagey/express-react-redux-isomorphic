@@ -16,8 +16,8 @@ export const create = (data) => {
       }
       throw err;
     }
-  }
-}
+  };
+};
 
 export const update = (data) => {
   return async () => {
@@ -41,8 +41,10 @@ export const deleteById = (id) => {
 };
 
 export const list = (page = 1, pageSize = 15) => {
-  return async (dispatch) => {
-    const resp = await api.customers.list(page, pageSize);
-    dispatch(resultsUpdated(resp.data));
-  };
+  // debugger;
+  return { type: "pagination/GET_PAGE customers", page, pageSize };
+  // return async (dispatch) => {
+  //   const resp = await api.customers.list(page, pageSize);
+  //   dispatch(resultsUpdated(resp.data));
+  // };
 };
