@@ -11,7 +11,7 @@ import { setUser } from "./universal/session/actions";
 const store = createStore();
 
 // api.session.info();
-
+store.dispatch({ type: 'PING' });
 const serializedUser = window.localStorage.getItem("user");
 if (serializedUser) {
   store.dispatch(setUser(JSON.parse(serializedUser)));
